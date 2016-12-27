@@ -132,6 +132,15 @@ class Users(BaseAPI):
         members = self.list().body['members']
         return get_item_id_by_name(members, user_name)
 
+    def tagify(self, text):
+        members = self.list().body['members']
+        mem_map = [('#{}'.format(c['name']), '<#{}>'.format(c['id'])) for c in members]
+
+        for k,v in mem_map:
+            text = text.replace(k,v)
+
+        return text
+
 
 class Groups(BaseAPI):
     def create(self, name):
@@ -260,6 +269,14 @@ class Channels(BaseAPI):
         channels = self.list().body['channels']
         return get_item_id_by_name(channels, channel_name)
 
+    def tagify(self, text):
+        channels = self.list().body['channels']
+        ch_map = [('#{}'.format(c['name']), '<#{}>'.format(c['id'])) for c in channels]
+
+        for k,v in ch_map:
+            text = text.replace(k,v)
+
+        return text
 
 class Chat(BaseAPI):
     def post_message(self, channel, text, username=None, as_user=None,
