@@ -135,6 +135,7 @@ class Users(BaseAPI):
     def tagify(self, text):
         members = self.list().body['members']
         mem_map = [('@{}'.format(c['name']), '<@{}>'.format(c['id'])) for c in members]
+        mem_map.extend([('@here', '<!here>'), ('@channel', '<!channel>'), ('@everyone', '<!everyone>')])
 
         for k,v in mem_map:
             text = text.replace(k,v)
